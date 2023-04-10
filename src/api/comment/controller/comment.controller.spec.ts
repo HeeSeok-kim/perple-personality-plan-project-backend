@@ -32,7 +32,7 @@ describe('CommentController', () => {
   });
 
   describe('댓글 생성 컨트롤러 테스트', () => {
-    it('댓글 생성 정상 케이스 ', async () => {
+    it('댓글 생성 결과 전송 ', async () => {
       const userId = 1;
       const feedId = 123;
       const commentCreateDto = { comment: 'Test comment' };
@@ -53,7 +53,7 @@ describe('CommentController', () => {
   });
 
   describe('댓글 삭제 컨트롤러 테스트', () => {
-    it('댓글 삭제 정상 케이스', async () => {
+    it('댓글 삭제 결과 전송', async () => {
       const userId = 1;
       const feedId = 123;
       const commentId = 1;
