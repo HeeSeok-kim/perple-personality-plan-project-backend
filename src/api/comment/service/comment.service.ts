@@ -1,28 +1,28 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { User } from 'src/db/models/user.models';
 import { CommentRepository } from '../comment.repository';
+import { CommentCreateDto } from '../dto/comment.create.dto';
 
 @Injectable()
 export class CommentService {
   constructor(private readonly commentRepository: CommentRepository) {}
 
-  async createComment(user_id: number, feed_id: number, body: object) {
-    return this.commentRepository.createComment(user_id, feed_id, body);
+  async createComment(userId: number, feedId: number, body: CommentCreateDto) {
+    return this.commentRepository.createComment(userId, feedId, body);
   }
 
-  async deleteComment(comment_id, user_id) {
-    const isComment = await this.commentRepository.findComment(comment_id);
+  async deleteComment(commentId: number, userId: number) {
+    const isComment = await this.commentRepository.findComment(commentId);
 
     if (!isComment) {
       throw new BadRequestException('존재하지 않는 댓글 입니다.');
     }
 
-    if (isComment.user_id !== user_id) {
+    if (isComment.user_id !== userId) {
       throw new BadRequestException('본인 댓글만 삭제 가능합니다.');
     }
     const deleteComment = await this.commentRepository.deleteComment(
-      comment_id,
-      user_id,
+      commentId,
+      userId,
     );
     if (deleteComment) {
       return `댓글이 삭제 되었습니다.`;

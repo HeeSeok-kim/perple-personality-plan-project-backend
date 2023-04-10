@@ -19,15 +19,15 @@ export class CommentRepository {
     private commentModel: typeof Comment,
   ) {}
 
-  async findComment(comment_id) {
+  async findComment(commentId) {
     return this.commentModel.findOne({
       raw: true,
-      where: { comment_id },
+      where: { comment_id: commentId },
       attributes: [
         'comment_id',
         'user_id',
         'feed_id',
-        [Sequelize.col('user.nickname'), 'nickanme'],
+        [Sequelize.col('user.nickname'), 'nickname'],
         'comment',
         'updated_at',
       ],
@@ -41,13 +41,17 @@ export class CommentRepository {
     });
   }
 
-  async createComment(user_id: number, feed_id: number, body: object) {
-    return this.commentModel.create({ user_id, feed_id, ...body });
+  async createComment(userId: number, feedId: number, body: object) {
+    return this.commentModel.create({
+      user_id: userId,
+      feed_id: feedId,
+      ...body,
+    });
   }
 
-  async deleteComment(comment_id, user_id) {
+  async deleteComment(commentId, userId) {
     return this.commentModel.destroy({
-      where: { comment_id, user_id },
+      where: { commentId, userId },
     });
   }
 
